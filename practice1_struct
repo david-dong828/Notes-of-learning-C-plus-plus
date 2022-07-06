@@ -1,0 +1,48 @@
+// pratice 1- struct
+// Write a function that finds the smallest and the largest element of a vector<double> argument, and also computes the mean and the median.
+// Do not use global variables. Either return a struct containing the results or pass them back through reference arguments. 
+// Which of the two ways of returning several result values do you prefer and why?
+
+// Way 1-- By returning a struct containing the results
+
+# include "std_lib_facilities.h"
+
+// create a struct named stresult which contains 4 calculations we need
+struct stresult 
+{
+	double minV, maxV, meanV, medianV; // leave initialization to user
+};
+
+// create a function to return the data with stresult type
+stresult vCalcu( vector<double> & v) // pass reference of the vector Not const reference since we need to sort vector
+{
+	stresult res; // declaration and definition
+	res.minV = res.maxV = res.medianV = res.meanV = v[0]; // initialize stresult data
+	double sum = 0;
+	for (auto x : v) 
+	{
+		res.minV = (res.minV > x) ? x : res.minV;
+		res.maxV = (res.maxV < x) ? x : res.maxV;
+		sum += x;
+	}
+	res.meanV = sum / v.size();
+	sort(v);
+	res.medianV = v[v.size() / 2];
+	return res;
+
+}
+
+// Way 2-- By returning a struct containing the results
+
+
+int main() 
+{
+	vector<double>v = { 1.2,3.5,2.1,6.5,4.3 };
+	stresult my_struc_result = vCalcu(v);
+
+	cout << "struct result smallest is: " << my_struc_result.minV<<"\n";
+	cout << "struct result largest is: " << my_struc_result.maxV << "\n";
+	cout << "struct result mean is: " << my_struc_result.meanV << "\n";
+	cout << "struct result median is: " << my_struc_result.medianV << "\n";
+	return 0;
+}
