@@ -1,0 +1,49 @@
+/*
+Write a function that takes a vector<string> argument and returns a vector<int> containing the number of characters in each string. 
+Also find the longest and the shortest string and the lexicographically first and last string. 
+How many separate functions would you use for these tasks? Why?
+**/
+
+# include "std_lib_facilities.h"
+
+struct strHandle
+{
+	vector<int>strLength;
+	string longestStr, shortestStr, firstStr, lastStr;
+	
+};
+
+strHandle strHandler(vector<string>& v)
+{
+	strHandle strHandleRes;
+	strHandleRes.longestStr = strHandleRes.shortestStr = strHandleRes.firstStr = strHandleRes.lastStr = v[0];
+	for (auto x : v)
+	{
+		strHandleRes.strLength.push_back(x.length());
+		strHandleRes.longestStr = (strHandleRes.longestStr.length() < x.length()) ? x : strHandleRes.longestStr;
+		strHandleRes.shortestStr = (strHandleRes.shortestStr.length() > x.length() ? x : strHandleRes.shortestStr);
+
+	}
+	sort(v);
+	strHandleRes.firstStr = v[0];
+	strHandleRes.lastStr = v[v.size()-1];
+	return strHandleRes;
+}
+
+
+int main()
+{
+	vector<string> v = { "astd","esdffg","sdedfq","adef","aas"};
+	strHandle strHandleResult = strHandler(v);
+	cout << "longest string is: " << strHandleResult.longestStr << "\n";
+	cout << "shortest string is: " << strHandleResult.shortestStr << "\n";
+	cout << "first string is: " << strHandleResult.firstStr << "\n";
+	cout << "last string is: " << strHandleResult.lastStr << "\n";
+
+	cout << "string length vector contains: ";
+	for (auto x : strHandleResult.strLength) cout << x << ' ';
+
+}
+
+// answer: need 1 struct and 1 function to complete these tasks.
+// function could calculate the tasks, while struct could store all data from the function then return to user
